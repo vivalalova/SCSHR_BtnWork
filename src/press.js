@@ -13,7 +13,10 @@ module.exports = async function (selector) {
 	await page.type('#FormLayout_edtUserID_I', USERNAME)
 	await page.type('#FormLayout_edtPassword_I', PASSWD)
 
-	// await page.screenshot({ path: 'screenshot/1.png' })
+	if (!process.env.IS_PRODUCTION) {
+		console.log('截圖')
+		await page.screenshot({ path: 'screenshot/1.png' })
+	}
 
 	await page.click('#FormLayout_btnLogin_CD')
 
@@ -35,7 +38,10 @@ module.exports = async function (selector) {
 		console.log(`fail on selector ${selector}`)
 	}
 
-	// await page.screenshot({ path: 'screenshot/2.png' })
+	if (!process.env.IS_PRODUCTION) {
+		console.log('截圖')
+		await page.screenshot({ path: 'screenshot/2.png' })
+	}
 
 	await browser.close()
 }
