@@ -1,4 +1,4 @@
-const loginAndPressSelector = require('./src/LoginAndPressSelector')
+const loginAndPressSelector = require('./index')
 
 //登入然後打下班下班
 loginAndPressSelector('#BtnOffWork')
