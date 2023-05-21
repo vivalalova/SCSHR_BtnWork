@@ -3,7 +3,9 @@ require('dotenv').config()
 const puppeteer = require('puppeteer');
 
 
-
+/**
+ *  登入然後在home頁按指定的selector
+ *   */
 module.exports = async function (selector) {
 	const { DOMAIN, USERNAME, PASSWD } = process.env
 	const browser = await puppeteer.launch({ headless: "new" })
