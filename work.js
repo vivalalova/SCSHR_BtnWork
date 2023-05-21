@@ -1,6 +1,6 @@
-const press = require('./src/press')
+const loginAndPressSelector = require('./src/LoginAndPressSelector')
 
 //登入然後打卡
-press('#BtnWork')
+loginAndPressSelector('#BtnWork')
 	.then(console.log)
 	.catch(console.error)
