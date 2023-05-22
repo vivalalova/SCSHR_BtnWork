@@ -6,8 +6,8 @@ const puppeteer = require('puppeteer');
 /**
  *  登入然後在home頁按指定的selector
  *   */
-module.exports = async function (selector) {
-	const { DOMAIN, USERNAME, PASSWD } = process.env
+module.exports = async function (selector, options) {
+	const { DOMAIN, USERNAME, PASSWD, DEBUG } = options ?? process.env
 	const browser = await puppeteer.launch({ headless: "new" })
 	const page = await browser.newPage()
 
@@ -15,7 +15,7 @@ module.exports = async function (selector) {
 	await page.type('#FormLayout_edtUserID_I', USERNAME)
 	await page.type('#FormLayout_edtPassword_I', PASSWD)
 
-	if (!process.env.IS_PRODUCTION) {
+	if (DEBUG) {
 		console.log('截圖')
 		await page.screenshot({ path: 'screenshot/1.png' })
 	}
@@ -40,7 +40,7 @@ module.exports = async function (selector) {
 		console.log(`fail on selector ${selector}`)
 	}
 
-	if (!process.env.IS_PRODUCTION) {
+	if (DEBUG) {
 		console.log('截圖')
 		await page.screenshot({ path: 'screenshot/2.png' })
 	}
