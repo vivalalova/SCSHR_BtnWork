@@ -1,7 +1,6 @@
 require('dotenv').config()
 
-const puppeteer = require('puppeteer');
-
+const puppeteer = require('puppeteer')
 
 /**
  *  登入然後在home頁按指定的selector
@@ -10,6 +9,8 @@ module.exports = async function (selector, options) {
 	const { DOMAIN, USERNAME, PASSWD, DEBUG } = options ?? process.env
 	const browser = await puppeteer.launch({ headless: "new" })
 	const page = await browser.newPage()
+
+	page.on('console', message => console.log(`${message.type().substr(0, 3).toUpperCase()}: ${message.text()}`))
 
 	await page.goto(DOMAIN)
 	await page.type('#FormLayout_edtUserID_I', USERNAME)
@@ -31,13 +32,15 @@ module.exports = async function (selector, options) {
 		console.log('登入失敗')
 	}
 
-	await page.goto('https://scsrwd.azurewebsites.net/home.aspx')
-
 	try {
-		await page.click(selector)
+		let frames = (await page.frames())
+		const frame = frames.find(frame => frame.url() === 'https://scsrwd.azurewebsites.net/Home.aspx')
+		await frame.waitForSelector(selector)
+		await frame.click(selector)
+		await frame.waitForTimeout(5000)
 		console.log(`success on selector ${selector}!!!`)
 	} catch (error) {
-		console.log(`fail on selector ${selector}`)
+		console.log(`fail on selector ${selector}`, error)
 	}
 
 	if (DEBUG) {
